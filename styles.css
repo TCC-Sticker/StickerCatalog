@@ -1,3 +1,4 @@
+/* General page styles */
 body {
     font-family: Arial, sans-serif;
     text-align: center;
@@ -14,29 +15,17 @@ h1 {
 p {
     font-size: 18px;
     color: #333;
-    margin: 10px 0;
-}
-
-/* Center container for the sticker sheet and content */
-.container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    min-height: 100vh;
 }
 
 /* Sticker sheet container */
 .sticker-sheet {
+    display: inline-block;
     position: relative;
-    text-align: center;
-    margin-bottom: 20px; /* Add space between sticker sheet and button */
 }
 
 .sticker-sheet img {
-    width: 100%;
+    width: 100%; /* Ensures the image scales responsively */
     max-width: 800px; /* Sets a max width for the image */
-    height: auto;
 }
 
 /* Collected sticker overlay */
@@ -48,9 +37,9 @@ p {
     z-index: 1;
 }
 
-/* Centered button and counter */
+/* Save button styling */
 button {
-    margin-top: 10px;
+    margin-top: 20px;
     padding: 10px 20px;
     font-size: 16px;
     background-color: #4CAF50;
@@ -62,18 +51,6 @@ button {
 
 button:hover {
     background-color: #45a049;
-}
-
-/* Ensure button and text are aligned in the center */
-#counter,
-#total {
-    font-weight: bold;
-}
-
-/* Fix the alignment for the save button */
-button {
-    display: inline-block;
-    margin: 20px auto;
 }
 
 /* Positioning the overlays for each clickable area on the image map */
