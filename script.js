@@ -1,48 +1,46 @@
 document.addEventListener('DOMContentLoaded', () => {
-    const stickerGrid = document.getElementById('sticker-grid');
+    const areas = document.querySelectorAll('area');
     const counter = document.getElementById('counter');
-    const total = document.getElementById('total');
     const saveButton = document.getElementById('save-button');
-
-    const stickers = [
-        '/path/to/sticker1.png',
-        '/path/to/sticker2.png',
-        '/path/to/sticker3.png',
-        // Add the path to all your sticker images here
-    ];
-
-    let collectedStickers = JSON.parse(localStorage.getItem('collectedStickers')) || new Array(stickers.length).fill(false);
+    let collectedStickers = JSON.parse(localStorage.getItem('collectedStickers')) || new Array(areas.length).fill(false);
 
     function updateCounter() {
         const collectedCount = collectedStickers.filter(collected => collected).length;
         counter.textContent = collectedCount;
-        total.textContent = stickers.length;
     }
 
-    function renderStickers() {
-        stickers.forEach((sticker, index) => {
-            const img = document.createElement('img');
-            img.src = sticker;
-            img.classList.add('sticker');
-            if (collectedStickers[index]) {
-                img.classList.add('collected');
+    function renderCollectedStickers() {
+        collectedStickers.forEach((collected, index) => {
+            if (collected) {
+                addCollectedOverlay(index);
             }
-
-            img.addEventListener('click', () => {
-                collectedStickers[index] = !collectedStickers[index];
-                img.classList.toggle('collected');
-                updateCounter();
-            });
-
-            stickerGrid.appendChild(img);
         });
     }
+
+    function addCollectedOverlay(index) {
+        const overlay = document.createElement('div');
+        overlay.classList.add('area-collected', `area-${index}`);
+        document.querySelector('.sticker-sheet').appendChild(overlay);
+    }
+
+    areas.forEach((area, index) => {
+        area.addEventListener('click', (e) => {
+            e.preventDefault();
+            collectedStickers[index] = !collectedStickers[index];
+            if (collectedStickers[index]) {
+                addCollectedOverlay(index);
+            } else {
+                document.querySelector(`.area-${index}`).remove();
+            }
+            updateCounter();
+        });
+    });
 
     saveButton.addEventListener('click', () => {
         localStorage.setItem('collectedStickers', JSON.stringify(collectedStickers));
         alert('Progress saved!');
     });
 
-    renderStickers();
+    renderCollectedStickers();
     updateCounter();
 });
