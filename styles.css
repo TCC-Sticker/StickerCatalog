@@ -53,14 +53,6 @@ button:hover {
     background-color: #903c9e;
 }
 
-#share-button{
-    margin-top: 10px;
-    background-color: #60266A;
-}
-
-#share-button:hover{
-    background-color: #903c9e;
-}
 
 .area-0 { top: 142px; left: 68px; width: 127px; height: 73px; }
 .area-1 { top: 144px; left: 205px; width: 118px; height: 73px; }
