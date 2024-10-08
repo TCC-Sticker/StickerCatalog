@@ -2,7 +2,7 @@
 body {
     font-family: Arial, sans-serif;
     text-align: center;
-    background-color: #f0f0f0;
+    background-color: #3da9c1;
     margin: 0;
     padding: 0;
 }
@@ -42,7 +42,7 @@ button {
     margin-top: 20px;
     padding: 10px 20px;
     font-size: 16px;
-    background-color: #4CAF50;
+    background-color: #60266A;
     color: white;
     border: none;
     border-radius: 5px;
@@ -50,7 +50,7 @@ button {
 }
 
 button:hover {
-    background-color: #45a049;
+    background-color: #903c9e;
 }
 
 /* Positioning the overlays for each clickable area on the image map */
