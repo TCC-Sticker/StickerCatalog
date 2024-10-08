@@ -42,13 +42,15 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // Save progress to local storage
-    saveButton.addEventListener('click', () => {
+    saveButton.addEventListener('click', (e) => {
+        e.preventDefault();
         localStorage.setItem('collectedStickers', JSON.stringify(collectedStickers));
         alert('Progress saved!');
     });
 
     // Share button functionality - Capture the sticker sheet and share it
-    shareButton.addEventListener('click', () => {
+    shareButton.addEventListener('click', (e) => {
+        e.preventDefault();  // Prevent default button behavior
         html2canvas(document.querySelector('.sticker-sheet')).then(canvas => {
             const link = document.createElement('a');
             link.download = 'sticker_collection.png';
