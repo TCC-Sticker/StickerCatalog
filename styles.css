@@ -1,36 +1,179 @@
+/* General page styles */
 body {
     font-family: Arial, sans-serif;
     text-align: center;
     background-color: #3da9c1;
+    margin: 0;
+    padding: 0;
 }
 
-.container {
-    margin: 20px auto;
-    width: 80%;
-    max-width: 1200px;
+h1 {
+    margin-top: 20px;
+    color: #4a4a4a;
 }
 
-.sticker-grid {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
-    justify-content: center;
+p {
+    font-size: 18px;
+    color: #333;
 }
 
-.sticker {
-    width: 100px;
-    height: 100px;
-    cursor: pointer;
-    border: 2px solid transparent;
+/* Sticker sheet container */
+.sticker-sheet {
+    display: inline-block;
+    position: relative;
 }
 
-.sticker.collected {
-    opacity: 0.5;
+.sticker-sheet img {
+    width: 100%; /* Ensures the image scales responsively */
+    max-width: 800px; /* Sets a max width for the image */
+}
+
+/* Collected sticker overlay */
+.area-collected {
+    background-color: rgba(0, 128, 0, 0.5); /* Transparent green overlay to show collected stickers */
     border: 2px solid green;
+    position: absolute;
+    pointer-events: none; /* Prevents interaction with the overlay */
+    z-index: 1;
 }
 
+/* Save button styling */
 button {
     margin-top: 20px;
     padding: 10px 20px;
     font-size: 16px;
+    background-color: #60266A;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
 }
+
+button:hover {
+    background-color: #903c9e
+}
+
+/* Positioning the overlays for each clickable area on the image map */
+.area-0 { top: 142px; left: 68px; width: 127px; height: 73px; }
+.area-1 { top: 144px; left: 205px; width: 118px; height: 73px; }
+.area-2 { top: 138px; left: 331px; width: 127px; height: 85px; }
+.area-3 { top: 137px; left: 466px; width: 116px; height: 87px; }
+.area-4 { top: 135px; left: 590px; width: 126px; height: 82px; }
+.area-5 { top: 231px; left: 55px; width: 72px; height: 80px; }
+.area-6 { top: 232px; left: 136px; width: 77px; height: 78px; }
+.area-7 { top: 235px; left: 225px; width: 74px; height: 76px; }
+.area-8 { top: 239px; left: 316px; width: 70px; height: 72px; }
+.area-9 { top: 238px; left: 405px; width: 70px; height: 75px; }
+.area-10 { top: 236px; left: 489px; width: 69px; height: 75px; }
+.area-11 { top: 233px; left: 572px; width: 77px; height: 76px; }
+.area-12 { top: 229px; left: 658px; width: 79px; height: 80px; }
+.area-13 { top: 321px; left: 54px; width: 77px; height: 80px; }
+.area-14 { top: 320px; left: 139px; width: 68px; height: 78px; }
+.area-15 { top: 321px; left: 217px; width: 74px; height: 78px; }
+.area-16 { top: 317px; left: 310px; width: 76px; height: 77px; }
+.area-17 { top: 318px; left: 398px; width: 77px; height: 78px; }
+.area-18 { top: 320px; left: 485px; width: 79px; height: 73px; }
+.area-19 { top: 317px; left: 579px; width: 78px; height: 76px; }
+.area-20 { top: 323px; left: 665px; width: 73px; height: 67px; }
+.area-21 { top: 413px; left: 50px; width: 84px; height: 75px; }
+.area-22 { top: 414px; left: 141px; width: 75px; height: 74px; }
+.area-23 { top: 406px; left: 223px; width: 72px; height: 79px; }
+.area-24 { top: 410px; left: 306px; width: 80px; height: 75px; }
+.area-25 { top: 413px; left: 398px; width: 83px; height: 69px; }
+.area-26 { top: 408px; left: 491px; width: 76px; height: 76px; }
+.area-27 { top: 401px; left: 608px; width: 131px; height: 88px; }
+.area-28 { top: 493px; left: 49px; width: 76px; height: 82px; }
+.area-29 { top: 497px; left: 137px; width: 76px; height: 73px; }
+.area-30 { top: 496px; left: 227px; width: 61px; height: 73px; }
+.area-31 { top: 500px; left: 308px; width: 79px; height: 66px; }
+.area-32 { top: 492px; left: 404px; width: 71px; height: 74px; }
+.area-33 { top: 492px; left: 492px; width: 69px; height: 74px; }
+.area-34 { top: 497px; left: 610px; width: 113px; height: 73px; }
+.area-35 { top: 583px; left: 55px; width: 69px; height: 71px; }
+.area-36 { top: 579px; left: 139px; width: 72px; height: 77px; }
+.area-37 { top: 577px; left: 222px; width: 75px; height: 79px; }
+.area-38 { top: 576px; left: 305px; width: 77px; height: 79px; }
+.area-39 { top: 576px; left: 398px; width: 77px; height: 79px; }
+.area-40 { top: 576px; left: 485px; width: 74px; height: 80px; }
+.area-41 { top: 582px; left: 576px; width: 77px; height: 77px; }
+.area-42 { top: 580px; left: 662px; width: 78px; height: 78px; }
+.area-43 { top: 670px; left: 54px; width: 64px; height: 72px; }
+.area-44 { top: 666px; left: 127px; width: 68px; height: 78px; }
+.area-45 { top: 666px; left: 207px; width: 83px; height: 83px; }
+.area-46 { top: 662px; left: 303px; width: 76px; height: 87px; }
+.area-47 { top: 670px; left: 390px; width: 78px; height: 72px; }
+.area-48 { top: 668px; left: 481px; width: 80px; height: 73px; }
+.area-49 { top: 665px; left: 566px; width: 86px; height: 80px; }
+.area-50 { top: 667px; left: 661px; width: 84px; height: 77px; }
+.area-51 { top: 761px; left: 60px; width: 62px; height: 88px; }
+.area-52 { top: 761px; left: 133px; width: 75px; height: 87px; }
+.area-53 { top: 764px; left: 217px; width: 68px; height: 83px; }
+.area-54 { top: 767px; left: 296px; width: 71px; height: 76px; }
+.area-55 { top: 759px; left: 376px; width: 91px; height: 93px; }
+.area-56 { top: 764px; left: 481px; width: 93px; height: 83px; }
+.area-57 { top: 758px; left: 581px; width: 72px; height: 87px; }
+.area-58 { top: 772px; left: 674px; width: 73px; height: 77px; }
+.area-59 { top: 875px; left: 466px; width: 82px; height: 81px; }
+.area-60 { top: 877px; left: 552px; width: 82px; height: 80px; }
+.area-61 { top: 875px; left: 641px; width: 73px; height: 83px; }
+.area-62 { top: 1042px; left: 48px; width: 185px; height: 79px; }
+.area-63 { top: 1044px; left: 250px; width: 181px; height: 72px; }
+.area-64 { top: 1043px; left: 450px; width: 172px; height: 75px; }
+.area-65 { top: 1040px; left: 641px; width: 76px; height: 86px; }
+.area-66 { top: 1136px; left: 18px; width: 89px; height: 96px; }
+.area-67 { top: 1153px; left: 121px; width: 70px; height: 77px; }
+.area-68 { top: 1149px; left: 205px; width: 99px; height: 79px; }
+.area-69 { top: 1151px; left: 316px; width: 76px; height: 86px; }
+.area-70 { top: 1146px; left: 403px; width: 81px; height: 86px; }
+.area-71 { top: 1150px; left: 491px; width: 78px; height: 84px; }
+.area-72 { top: 1150px; left: 584px; width: 81px; height: 88px; }
+.area-73 { top: 1144px; left: 676px; width: 68px; height: 92px; }
+.area-74 { top: 1249px; left: 48px; width: 77px; height: 90px; }
+.area-75 { top: 1245px; left: 134px; width: 71px; height: 95px; }
+.area-76 { top: 1244px; left: 211px; width: 53px; height: 90px; }
+.area-77 { top: 1242px; left: 276px; width: 73px; height: 95px; }
+.area-78 { top: 1251px; left: 360px; width: 70px; height: 85px; }
+.area-79 { top: 1250px; left: 438px; width: 71px; height: 89px; }
+.area-80 { top: 1249px; left: 519px; width: 76px; height: 91px; }
+.area-81 { top: 1249px; left: 604px; width: 57px; height: 81px; }
+.area-82 { top: 1242px; left: 675px; width: 63px; height: 95px; }
+.area-83 { top: 1349px; left: 36px; width: 85px; height: 89px; }
+.area-84 { top: 1357px; left: 134px; width: 69px; height: 87px; }
+.area-85 { top: 1369px; left: 222px; width: 61px; height: 67px; }
+.area-86 { top: 1370px; left: 302px; width: 74px; height: 65px; }
+.area-87 { top: 1353px; left: 390px; width: 68px; height: 83px; }
+.area-88 { top: 1363px; left: 475px; width: 52px; height: 69px; }
+.area-89 { top: 1356px; left: 564px; width: 80px; height: 85px; }
+.area-90 { top: 1361px; left: 671px; width: 71px; height: 68px; }
+.area-91 { top: 1458px; left: 30px; width: 64px; height: 80px; }
+.area-92 { top: 1479px; left: 119px; width: 67px; height: 53px; }
+.area-93 { top: 1456px; left: 186px; width: 73px; height: 92px; }
+.area-94 { top: 1472px; left: 276px; width: 104px; height: 70px; }
+.area-95 { top: 1458px; left: 404px; width: 63px; height: 95px; }
+.area-96 { top: 1461px; left: 492px; width: 81px; height: 90px; }
+.area-97 { top: 1477px; left: 596px; width: 79px; height: 63px; }
+.area-98 { top: 1469px; left: 692px; width: 73px; height: 77px; }
+.area-99 { top: 1570px; left: 37px; width: 94px; height: 90px; }
+.area-100 { top: 1575px; left: 160px; width: 96px; height: 82px; }
+.area-101 { top: 1571px; left: 272px; width: 61px; height: 89px; }
+.area-102 { top: 1573px; left: 340px; width: 64px; height: 83px; }
+.area-103 { top: 1572px; left: 427px; width: 60px; height: 86px; }
+.area-104 { top: 1574px; left: 509px; width: 62px; height: 83px; }
+.area-105 { top: 1573px; left: 584px; width: 68px; height: 84px; }
+.area-106 { top: 1570px; left: 670px; width: 77px; height: 85px; }
+.area-107 { top: 1676px; left: 36px; width: 108px; height: 85px; }
+.area-108 { top: 1680px; left: 163px; width: 80px; height: 79px; }
+.area-109 { top: 1676px; left: 256px; width: 66px; height: 81px; }
+.area-110 { top: 1684px; left: 343px; width: 64px; height: 72px; }
+.area-111 { top: 1682px; left: 412px; width: 61px; height: 70px; }
+.area-112 { top: 1680px; left: 483px; width: 62px; height: 76px; }
+.area-113 { top: 1682px; left: 570px; width: 66px; height: 75px; }
+.area-114 { top: 1679px; left: 648px; width: 67px; height: 82px; }
+.area-115 { top: 1784px; left: 47px; width: 73px; height: 85px; }
+.area-116 { top: 1795px; left: 138px; width: 75px; height: 71px; }
+.area-117 { top: 1790px; left: 225px; width: 71px; height: 73px; }
+.area-118 { top: 1782px; left: 307px; width: 85px; height: 74px; }
+.area-119 { top: 1786px; left: 408px; width: 75px; height: 70px; }
+.area-120 { top: 1790px; left: 497px; width: 83px; height: 66px; }
+.area-121 { top: 1783px; left: 599px; width: 82px; height: 81px; }
+.area-122 { top: 1775px; left: 691px; width: 46px; height: 87px; }
