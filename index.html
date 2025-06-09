@@ -3,144 +3,458 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sticker Collection</title>
-    <link rel="stylesheet" href="styles.css">
+    <title>Interactive Sticker Book</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            overflow-x: hidden;
+        }
+        
+        .container {
+            max-width: 1200px;
+            width: 100%;
+            text-align: center;
+            padding: 20px;
+        }
+        
+        h1 {
+            color: white;
+            margin-bottom: 30px;
+            font-size: 3.5rem;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.3);
+            letter-spacing: 1px;
+        }
+        
+        .book-container {
+            display: flex;
+            justify-content: center;
+            perspective: 2000px;
+        }
+        
+        .sticker-book {
+            position: relative;
+            width: 800px;
+            height: 600px;
+            transform-style: preserve-3d;
+            transition: transform 0.8s;
+        }
+        
+        .page {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            background: #f8f5f0;
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            display: flex;
+            flex-direction: column;
+            padding: 20px;
+            backface-visibility: hidden;
+            overflow: hidden;
+            border: 1px solid #e0d6c3;
+        }
+        
+        .cover {
+            background: linear-gradient(135deg, #ff9a9e 0%, #fad0c4 100%);
+            justify-content: center;
+            align-items: center;
+            color: #5a3921;
+            text-align: center;
+            z-index: 12;
+            border: 15px solid #8b5a2b;
+            box-shadow: inset 0 0 20px rgba(0,0,0,0.2);
+        }
+        
+        .cover h2 {
+            font-size: 4rem;
+            margin-bottom: 20px;
+            text-shadow: 3px 3px 0 rgba(0,0,0,0.1);
+            color: #5a2c02;
+        }
+        
+        .cover p {
+            font-size: 1.5rem;
+            max-width: 80%;
+            margin: 0 auto 30px;
+            color: #5a2c02;
+            font-weight: 500;
+        }
+        
+        .sticker-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            grid-template-rows: repeat(3, 1fr);
+            gap: 15px;
+            flex: 1;
+            padding: 20px;
+        }
+        
+        .sticker {
+            background-color: #f0e6d2;
+            border-radius: 10px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            box-shadow: inset 0 0 10px rgba(0,0,0,0.1);
+        }
+        
+        .sticker img {
+            max-width: 90%;
+            max-height: 90%;
+            opacity: 0.4;
+            transition: opacity 0.3s;
+        }
+        
+        .sticker.collected img {
+            opacity: 1;
+        }
+        
+        .sticker.collected {
+            box-shadow: 0 0 0 4px #4caf50;
+        }
+        
+        .page-number {
+            text-align: center;
+            font-size: 1.2rem;
+            color: #8b5a2b;
+            font-weight: bold;
+            height: 30px;
+        }
+        
+        .navigation {
+            margin-top: 30px;
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+        
+        .nav-btn {
+            background: #ff9a9e;
+            border: none;
+            padding: 12px 25px;
+            font-size: 1.2rem;
+            border-radius: 50px;
+            cursor: pointer;
+            color: white;
+            font-weight: bold;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .nav-btn:hover {
+            background: #fad0c4;
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+        }
+        
+        .nav-btn:disabled {
+            background: #cccccc;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .counter {
+            color: white;
+            font-size: 1.3rem;
+            margin-top: 20px;
+            background: rgba(0,0,0,0.2);
+            padding: 10px 20px;
+            border-radius: 30px;
+            display: inline-block;
+        }
+        
+        /* Flip animation */
+        .flip-left {
+            transform: rotateY(-180deg);
+        }
+        
+        .flip-right {
+            transform: rotateY(0deg);
+        }
+        
+        /* Sticker decorations */
+        .sticker::before {
+            content: "";
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><rect width="100" height="100" fill="none" stroke="%23d4c6ad" stroke-width="2" stroke-dasharray="8,4" rx="10"/></svg>');
+            opacity: 0.6;
+        }
+        
+        .cover-decoration {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="200" height="200" viewBox="0 0 200 200"><path d="M40,40 Q100,20 160,40 Q180,100 160,160 Q100,180 40,160 Q20,100 40,40 Z" fill="none" stroke="%238b5a2b" stroke-width="2" stroke-opacity="0.2"/></svg>');
+            opacity: 0.3;
+        }
+        
+        .ribbon {
+            position: absolute;
+            top: -10px;
+            right: -10px;
+            background: #ff6b6b;
+            color: white;
+            padding: 10px 20px;
+            font-weight: bold;
+            transform: rotate(45deg);
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            width: 150px;
+            text-align: center;
+            right: -40px;
+            top: 20px;
+        }
+    </style>
 </head>
 <body>
-    <p>Stickers Collected: <span id="counter">0</span> / <span id="total">123</span></p>
-    
-    <div class="sticker-sheet">
-        <img src="32.png" usemap="#image-map" id="sticker-sheet">
-        <map name="image-map">
-            <!-- Added all 123 areas -->
-            <area target="" alt="" title="" href="#" coords="68,142,195,215" shape="rect" data-index="0"></area>
-            <area target="" alt="" title="" href="#" coords="323,217,205,144" shape="rect" data-index="1"></area>
-            <area target="" alt="" title="" href="#" coords="331,138,458,223" shape="rect" data-index="2"></area>
-            <area target="" alt="" title="" href="#" coords="466,137,582,224" shape="rect" data-index="3"></area>
-            <area target="" alt="" title="" href="#" coords="590,135,716,217" shape="rect" data-index="4"></area>
-            <area target="" alt="" title="" href="#" coords="55,231,127,311" shape="rect" data-index="5"></area>
-            <area target="" alt="" title="" href="#" coords="136,232,213,310" shape="rect" data-index="6"></area>
-            <area target="" alt="" title="" href="#" coords="225,235,299,311" shape="rect" data-index="7"></area>
-            <area target="" alt="" title="" href="#" coords="316,239,386,311" shape="rect" data-index="8"></area>
-            <area target="" alt="" title="" href="#" coords="405,238,475,313" shape="rect" data-index="9"></area>
-            <area target="" alt="" title="" href="#" coords="489,236,558,311" shape="rect" data-index="10"></area>
-            <area target="" alt="" title="" href="#" coords="572,233,649,309" shape="rect" data-index="11"></area>
-            <area target="" alt="" title="" href="#" coords="658,229,737,309" shape="rect" data-index="12"></area>
-            <area target="" alt="" title="" href="#" coords="54,321,131,401" shape="rect" data-index="13"></area>
-            <area target="" alt="" title="" href="#" coords="139,320,207,398" shape="rect" data-index="14"></area>
-            <area target="" alt="" title="" href="#" coords="217,321,291,399" shape="rect" data-index="15"></area>
-            <area target="" alt="" title="" href="#" coords="310,317,386,394" shape="rect" data-index="16"></area>
-            <area target="" alt="" title="" href="#" coords="398,318,475,396" shape="rect" data-index="17"></area>
-            <area target="" alt="" title="" href="#" coords="485,320,564,393" shape="rect" data-index="18"></area>
-            <area target="" alt="" title="" href="#" coords="579,317,657,393" shape="rect" data-index="19"></area>
-            <area target="" alt="" title="" href="#" coords="665,323,738,390" shape="rect" data-index="20"></area>
-            <area target="" alt="" title="" href="#" coords="50,413,134,488" shape="rect" data-index="21"></area>
-            <area target="" alt="" title="" href="#" coords="141,414,216,488" shape="rect" data-index="22"></area>
-            <area target="" alt="" title="" href="#" coords="223,406,295,485" shape="rect" data-index="23"></area>
-            <area target="" alt="" title="" href="#" coords="306,410,386,485" shape="rect" data-index="24"></area>
-            <area target="" alt="" title="" href="#" coords="398,413,481,482" shape="rect" data-index="25"></area>
-            <area target="" alt="" title="" href="#" coords="491,408,567,484" shape="rect" data-index="26"></area>
-            <area target="" alt="" title="" href="#" coords="608,401,739,489" shape="rect" data-index="27"></area>
-            <area target="" alt="" title="" href="#" coords="49,493,125,575" shape="rect" data-index="28"></area>
-            <area target="" alt="" title="" href="#" coords="137,497,213,570" shape="rect" data-index="29"></area>
-            <area target="" alt="" title="" href="#" coords="227,496,288,569" shape="rect" data-index="30"></area>
-            <area target="" alt="" title="" href="#" coords="308,500,387,566" shape="rect" data-index="31"></area>
-            <area target="" alt="" title="" href="#" coords="404,492,475,566" shape="rect" data-index="32"></area>
-            <area target="" alt="" title="" href="#" coords="492,492,561,566" shape="rect" data-index="33"></area>
-            <area target="" alt="" title="" href="#" coords="610,497,723,570" shape="rect" data-index="34"></area>
-            <area target="" alt="" title="" href="#" coords="55,583,124,654" shape="rect" data-index="35"></area>
-            <area target="" alt="" title="" href="#" coords="139,579,211,656" shape="rect" data-index="36"></area>
-            <area target="" alt="" title="" href="#" coords="222,577,297,656" shape="rect" data-index="37"></area>
-            <area target="" alt="" title="" href="#" coords="305,576,382,655" shape="rect" data-index="38"></area>
-            <area target="" alt="" title="" href="#" coords="398,576,475,656" shape="rect" data-index="39"></area>
-            <area target="" alt="" title="" href="#" coords="485,576,559,656" shape="rect" data-index="40"></area>
-            <area target="" alt="" title="" href="#" coords="576,582,653,659" shape="rect" data-index="41"></area>
-            <area target="" alt="" title="" href="#" coords="662,580,740,658" shape="rect" data-index="42"></area>
-            <area target="" alt="" title="" href="#" coords="54,670,118,742" shape="rect" data-index="43"></area>
-            <area target="" alt="" title="" href="#" coords="127,666,195,744" shape="rect" data-index="44"></area>
-            <area target="" alt="" title="" href="#" coords="207,666,290,749" shape="rect" data-index="45"></area>
-            <area target="" alt="" title="" href="#" coords="303,662,379,749" shape="rect" data-index="46"></area>
-            <area target="" alt="" title="" href="#" coords="390,670,468,742" shape="rect" data-index="47"></area>
-            <area target="" alt="" title="" href="#" coords="481,668,561,741" shape="rect" data-index="48"></area>
-            <area target="" alt="" title="" href="#" coords="566,665,652,745" shape="rect" data-index="49"></area>
-            <area target="" alt="" title="" href="#" coords="661,667,745,744" shape="rect" data-index="50"></area>
-            <area target="" alt="" title="" href="#" coords="60,761,122,849" shape="rect" data-index="51"></area>
-            <area target="" alt="" title="" href="#" coords="133,761,208,848" shape="rect" data-index="52"></area>
-            <area target="" alt="" title="" href="#" coords="217,764,285,847" shape="rect" data-index="53"></area>
-            <area target="" alt="" title="" href="#" coords="296,767,367,843" shape="rect" data-index="54"></area>
-            <area target="" alt="" title="" href="#" coords="376,759,467,852" shape="rect" data-index="55"></area>
-            <area target="" alt="" title="" href="#" coords="481,764,574,847" shape="rect" data-index="56"></area>
-            <area target="" alt="" title="" href="#" coords="581,758,653,845" shape="rect" data-index="57"></area>
-            <area target="" alt="" title="" href="#" coords="674,772,747,849" shape="rect" data-index="58"></area>
-            <area target="" alt="" title="" href="#" coords="466,875,548,956" shape="rect" data-index="59"></area>
-            <area target="" alt="" title="" href="#" coords="552,877,634,957" shape="rect" data-index="60"></area>
-            <area target="" alt="" title="" href="#" coords="641,875,714,958" shape="rect" data-index="61"></area>
-            <area target="" alt="" title="" href="#" coords="48,1042,233,1121" shape="rect" data-index="62"></area>
-            <area target="" alt="" title="" href="#" coords="250,1044,431,1116" shape="rect" data-index="63"></area>
-            <area target="" alt="" title="" href="#" coords="450,1043,622,1118" shape="rect" data-index="64"></area>
-            <area target="" alt="" title="" href="#" coords="641,1040,717,1126" shape="rect" data-index="65"></area>
-            <area target="" alt="" title="" href="#" coords="18,1136,107,1232" shape="rect" data-index="66"></area>
-            <area target="" alt="" title="" href="#" coords="121,1153,191,1230" shape="rect" data-index="67"></area>
-            <area target="" alt="" title="" href="#" coords="205,1149,304,1228" shape="rect" data-index="68"></area>
-            <area target="" alt="" title="" href="#" coords="316,1151,392,1237" shape="rect" data-index="69"></area>
-            <area target="" alt="" title="" href="#" coords="403,1146,484,1232" shape="rect" data-index="70"></area>
-            <area target="" alt="" title="" href="#" coords="569,1234,491,1150" shape="rect" data-index="71"></area>
-            <area target="" alt="" title="" href="#" coords="584,1150,665,1238" shape="rect" data-index="72"></area>
-            <area target="" alt="" title="" href="#" coords="676,1144,744,1236" shape="rect" data-index="73"></area>
-            <area target="" alt="" title="" href="#" coords="48,1249,125,1339" shape="rect" data-index="74"></area>
-            <area target="" alt="" title="" href="#" coords="134,1245,205,1340" shape="rect" data-index="75"></area>
-            <area target="" alt="" title="" href="#" coords="211,1244,264,1334" shape="rect" data-index="76"></area>
-            <area target="" alt="" title="" href="#" coords="276,1242,349,1337" shape="rect" data-index="77"></area>
-            <area target="" alt="" title="" href="#" coords="360,1251,430,1336" shape="rect" data-index="78"></area>
-            <area target="" alt="" title="" href="#" coords="438,1250,509,1339" shape="rect" data-index="79"></area>
-            <area target="" alt="" title="" href="#" coords="519,1249,595,1340" shape="rect" data-index="80"></area>
-            <area target="" alt="" title="" href="#" coords="604,1249,661,1330" shape="rect" data-index="81"></area>
-            <area target="" alt="" title="" href="#" coords="675,1242,738,1337" shape="rect" data-index="82"></area>
-            <area target="" alt="" title="" href="#" coords="36,1349,121,1438" shape="rect" data-index="83"></area>
-            <area target="" alt="" title="" href="#" coords="134,1357,203,1444" shape="rect" data-index="84"></area>
-            <area target="" alt="" title="" href="#" coords="222,1369,283,1436" shape="rect" data-index="85"></area>
-            <area target="" alt="" title="" href="#" coords="302,1370,376,1435" shape="rect" data-index="86"></area>
-            <area target="" alt="" title="" href="#" coords="390,1353,458,1436" shape="rect" data-index="87"></area>
-            <area target="" alt="" title="" href="#" coords="475,1363,527,1432" shape="rect" data-index="88"></area>
-            <area target="" alt="" title="" href="#" coords="564,1356,644,1441" shape="rect" data-index="89"></area>
-            <area target="" alt="" title="" href="#" coords="671,1361,742,1429" shape="rect" data-index="90"></area>
-            <area target="" alt="" title="" href="#" coords="30,1458,94,1538" shape="rect" data-index="91"></area>
-            <area target="" alt="" title="" href="#" coords="119,1479,186,1532" shape="rect" data-index="92"></area>
-            <area target="" alt="" title="" href="#" coords="186,1456,259,1548" shape="rect" data-index="93"></area>
-            <area target="" alt="" title="" href="#" coords="276,1472,380,1542" shape="rect" data-index="94"></area>
-            <area target="" alt="" title="" href="#" coords="404,1458,467,1553" shape="rect" data-index="95"></area>
-            <area target="" alt="" title="" href="#" coords="492,1461,573,1551" shape="rect" data-index="96"></area>
-            <area target="" alt="" title="" href="#" coords="596,1477,675,1540" shape="rect" data-index="97"></area>
-            <area target="" alt="" title="" href="#" coords="692,1469,765,1546" shape="rect" data-index="98"></area>
-            <area target="" alt="" title="" href="#" coords="37,1570,131,1660" shape="rect" data-index="99"></area>
-            <area target="" alt="" title="" href="#" coords="160,1575,256,1657" shape="rect" data-index="100"></area>
-            <area target="" alt="" title="" href="#" coords="272,1571,333,1660" shape="rect" data-index="101"></area>
-            <area target="" alt="" title="" href="#" coords="340,1573,404,1656" shape="rect" data-index="102"></area>
-            <area target="" alt="" title="" href="#" coords="427,1572,487,1658" shape="rect" data-index="103"></area>
-            <area target="" alt="" title="" href="#" coords="509,1574,571,1657" shape="rect" data-index="104"></area>
-            <area target="" alt="" title="" href="#" coords="584,1573,652,1657" shape="rect" data-index="105"></area>
-            <area target="" alt="" title="" href="#" coords="670,1570,747,1655" shape="rect" data-index="106"></area>
-            <area target="" alt="" title="" href="#" coords="36,1676,144,1761" shape="rect" data-index="107"></area>
-            <area target="" alt="" title="" href="#" coords="163,1680,243,1759" shape="rect" data-index="108"></area>
-            <area target="" alt="" title="" href="#" coords="256,1676,322,1757" shape="rect" data-index="109"></area>
-            <area target="" alt="" title="" href="#" coords="343,1684,407,1756" shape="rect" data-index="110"></area>
-            <area target="" alt="" title="" href="#" coords="412,1682,473,1752" shape="rect" data-index="111"></area>
-            <area target="" alt="" title="" href="#" coords="483,1680,545,1756" shape="rect" data-index="112"></area>
-            <area target="" alt="" title="" href="#" coords="570,1682,636,1757" shape="rect" data-index="113"></area>
-            <area target="" alt="" title="" href="#" coords="648,1679,715,1761" shape="rect" data-index="114"></area>
-            <area target="" alt="" title="" href="#" coords="47,1784,120,1869" shape="rect" data-index="115"></area>
-            <area target="" alt="" title="" href="#" coords="138,1795,213,1866" shape="rect" data-index="116"></area>
-            <area target="" alt="" title="" href="#" coords="225,1790,296,1863" shape="rect" data-index="117"></area>
-            <area target="" alt="" title="" href="#" coords="392,1856,307,1782" shape="rect" data-index="118"></area>
-            <area target="" alt="" title="" href="#" coords="408,1786,483,1856" shape="rect" data-index="119"></area>
-            <area target="" alt="" title="" href="#" coords="497,1790,580,1856" shape="rect" data-index="120"></area>
-            <area target="" alt="" title="" href="#" coords="599,1783,681,1864" shape="rect" data-index="121"></area>
-            <area target="" alt="" title="" href="#" coords="691,1775,737,1862" shape="rect" data-index="122"></area>
-        </map>
+    <div class="container">
+        <h1>Interactive Sticker Book</h1>
+        
+        <div class="book-container">
+            <div class="sticker-book" id="stickerBook">
+                <!-- Cover Page -->
+                <div class="page cover">
+                    <div class="cover-decoration"></div>
+                    <div class="ribbon">NEW COLLECTION</div>
+                    <h2>My Sticker Album</h2>
+                    <p>Collect all 123 stickers! Click on stickers to mark them as collected</p>
+                    <div class="sticker-grid">
+                        <!-- Show sample stickers on cover -->
+                        <div class="sticker collected">
+                            <img src="https://cdn-icons-png.flaticon.com/128/686/686589.png" alt="Sticker">
+                        </div>
+                        <div class="sticker">
+                            <img src="https://cdn-icons-png.flaticon.com/128/1998/1998665.png" alt="Sticker">
+                        </div>
+                        <div class="sticker collected">
+                            <img src="https://cdn-icons-png.flaticon.com/128/1998/1998742.png" alt="Sticker">
+                        </div>
+                        <div class="sticker">
+                            <img src="https://cdn-icons-png.flaticon.com/128/1998/1998716.png" alt="Sticker">
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Sticker pages will be generated by JavaScript -->
+            </div>
+        </div>
+        
+        <div class="navigation">
+            <button class="nav-btn" id="prevBtn" disabled>
+                <i class="fas fa-arrow-left"></i> Previous
+            </button>
+            <button class="nav-btn" id="nextBtn">
+                Next <i class="fas fa-arrow-right"></i>
+            </button>
+        </div>
+        
+        <div class="counter">
+            Collected: <span id="collectedCount">0</span> of 123 stickers
+        </div>
     </div>
 
-    <button id="save-button">Save Progress</button>
-
-    <script src="script.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const stickerBook = document.getElementById('stickerBook');
+            const prevBtn = document.getElementById('prevBtn');
+            const nextBtn = document.getElementById('nextBtn');
+            const collectedCountEl = document.getElementById('collectedCount');
+            
+            // Sticker images - in a real app, these would be uploaded to GitHub
+            const stickerImages = [
+                'https://cdn-icons-png.flaticon.com/128/1998/1998665.png',
+                'https://cdn-icons-png.flaticon.com/128/1998/1998716.png',
+                'https://cdn-icons-png.flaticon.com/128/1998/1998742.png',
+                'https://cdn-icons-png.flaticon.com/128/1998/1998756.png',
+                'https://cdn-icons-png.flaticon.com/128/1998/1998760.png',
+                'https://cdn-icons-png.flaticon.com/128/1998/1998768.png',
+                'https://cdn-icons-png.flaticon.com/128/1998/1998772.png',
+                'https://cdn-icons-png.flaticon.com/128/1998/1998776.png',
+                'https://cdn-icons-png.flaticon.com/128/1998/1998782.png',
+                'https://cdn-icons-png.flaticon.com/128/1998/1998796.png',
+                'https://cdn-icons-png.flaticon.com/128/1998/1998800.png',
+                'https://cdn-icons-png.flaticon.com/128/1998/1998806.png',
+                'https://cdn-icons-png.flaticon.com/128/686/686589.png'
+            ];
+            
+            // Total stickers and pages
+            const totalStickers = 123;
+            const stickersPerPage = 12;
+            const totalPages = Math.ceil(totalStickers / stickersPerPage);
+            
+            // Current page state
+            let currentPage = 0;
+            const collectedStickers = JSON.parse(localStorage.getItem('collectedStickers')) || {};
+            let collectedCount = Object.keys(collectedStickers).length;
+            
+            // Generate sticker pages
+            function generatePages() {
+                // Clear existing pages (except cover)
+                while (stickerBook.children.length > 1) {
+                    stickerBook.removeChild(stickerBook.lastChild);
+                }
+                
+                // Create sticker pages
+                for (let i = 0; i < totalPages; i++) {
+                    const page = document.createElement('div');
+                    page.className = 'page';
+                    page.dataset.page = i;
+                    
+                    const pageNumber = document.createElement('div');
+                    pageNumber.className = 'page-number';
+                    pageNumber.textContent = `Page ${i + 1} of ${totalPages}`;
+                    page.appendChild(pageNumber);
+                    
+                    const grid = document.createElement('div');
+                    grid.className = 'sticker-grid';
+                    page.appendChild(grid);
+                    
+                    // Calculate sticker range for this page
+                    const start = i * stickersPerPage;
+                    const end = Math.min(start + stickersPerPage, totalStickers);
+                    
+                    // Create sticker slots
+                    for (let j = start; j < end; j++) {
+                        const sticker = document.createElement('div');
+                        sticker.className = 'sticker';
+                        sticker.dataset.id = j;
+                        
+                        // Random sticker image (in a real app, you would use specific images)
+                        const img = document.createElement('img');
+                        img.src = stickerImages[Math.floor(Math.random() * stickerImages.length)];
+                        img.alt = `Sticker ${j + 1}`;
+                        sticker.appendChild(img);
+                        
+                        // Check if sticker is collected
+                        if (collectedStickers[j]) {
+                            sticker.classList.add('collected');
+                        }
+                        
+                        // Add click event
+                        sticker.addEventListener('click', function() {
+                            toggleSticker(j);
+                        });
+                        
+                        grid.appendChild(sticker);
+                    }
+                    
+                    stickerBook.appendChild(page);
+                }
+                
+                // Position pages for flip animation
+                positionPages();
+                updateCounter();
+            }
+            
+            // Position pages in 3D space
+            function positionPages() {
+                const pages = document.querySelectorAll('.page:not(.cover)');
+                pages.forEach((page, index) => {
+                    const pageNum = parseInt(page.dataset.page);
+                    
+                    if (pageNum < currentPage) {
+                        // Pages to the left
+                        page.style.transform = `rotateY(180deg) translateZ(${(currentPage - pageNum) * 2}px)`;
+                        page.style.zIndex = totalPages - pageNum;
+                    } else if (pageNum > currentPage) {
+                        // Pages to the right
+                        page.style.transform = `rotateY(0deg) translateZ(${(pageNum - currentPage) * 2}px)`;
+                        page.style.zIndex = totalPages - pageNum;
+                    } else {
+                        // Current page
+                        page.style.transform = 'rotateY(0deg)';
+                        page.style.zIndex = totalPages;
+                    }
+                });
+            }
+            
+            // Toggle sticker collected state
+            function toggleSticker(id) {
+                if (collectedStickers[id]) {
+                    delete collectedStickers[id];
+                } else {
+                    collectedStickers[id] = true;
+                }
+                
+                collectedCount = Object.keys(collectedStickers).length;
+                localStorage.setItem('collectedStickers', JSON.stringify(collectedStickers));
+                updateCounter();
+                
+                // Update sticker UI
+                const sticker = document.querySelector(`.sticker[data-id="${id}"]`);
+                if (sticker) {
+                    sticker.classList.toggle('collected');
+                }
+            }
+            
+            // Update collected counter
+            function updateCounter() {
+                collectedCountEl.textContent = collectedCount;
+            }
+            
+            // Navigation
+            nextBtn.addEventListener('click', function() {
+                if (currentPage < totalPages) {
+                    currentPage++;
+                    stickerBook.classList.add('flip-left');
+                    
+                    setTimeout(() => {
+                        stickerBook.classList.remove('flip-left');
+                        positionPages();
+                        updateNavButtons();
+                    }, 800);
+                }
+            });
+            
+            prevBtn.addEventListener('click', function() {
+                if (currentPage > 0) {
+                    currentPage--;
+                    stickerBook.classList.add('flip-right');
+                    
+                    setTimeout(() => {
+                        stickerBook.classList.remove('flip-right');
+                        positionPages();
+                        updateNavButtons();
+                    }, 800);
+                }
+            });
+            
+            // Update navigation buttons state
+            function updateNavButtons() {
+                prevBtn.disabled = currentPage === 0;
+                nextBtn.disabled = currentPage === totalPages;
+            }
+            
+            // Initialize
+            generatePages();
+            updateNavButtons();
+        });
+    </script>
 </body>
 </html>
