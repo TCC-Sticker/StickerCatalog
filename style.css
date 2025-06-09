@@ -1,51 +1,69 @@
 body {
-  background-color: #f5f5f5;
-  font-family: sans-serif;
+  margin: 0;
+  background: #eae7dc;
   display: flex;
   justify-content: center;
   align-items: center;
   height: 100vh;
+  font-family: 'Georgia', serif;
 }
 
 .book {
-  width: 600px;
-  height: 800px;
+  width: 900px;
+  height: 600px;
+  position: relative;
   perspective: 2000px;
 }
 
 .page {
   width: 100%;
   height: 100%;
-  background-color: white;
-  border: 2px solid #ccc;
-  box-shadow: 0 0 15px rgba(0,0,0,0.2);
   position: absolute;
-  transform-origin: left;
-  transition: transform 0.6s ease;
-  backface-visibility: hidden;
+  background: white;
+  box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+  transform-origin: left center;
+  transform-style: preserve-3d;
+  transition: transform 1s ease;
   overflow: hidden;
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  grid-template-rows: repeat(4, 1fr);
-  gap: 10px;
-  padding: 20px;
-  box-sizing: border-box;
+  display: flex;
 }
 
 .cover {
-  display: flex;
-  align-items: center;
+  background: #5c3a21;
+  color: white;
   justify-content: center;
-  font-size: 24px;
-  cursor: pointer;
+  align-items: center;
+  font-size: 2.5rem;
+  font-weight: bold;
   z-index: 1000;
+  cursor: pointer;
+}
+
+.cover-text {
+  transform: rotateY(0deg);
+}
+
+.spread {
+  display: flex;
+  width: 100%;
+  height: 100%;
+}
+
+.left-page, .right-page {
+  flex: 1;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(3, 1fr);
+  padding: 20px;
+  gap: 10px;
+  box-sizing: border-box;
 }
 
 .sticker {
   width: 100%;
   height: 100%;
-  opacity: 0.3;
   object-fit: contain;
+  opacity: 0.3;
   border: 2px solid transparent;
   transition: all 0.3s ease;
   cursor: pointer;
