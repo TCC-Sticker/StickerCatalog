@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sticker Collection Book</title>
+    <title>TCC Sticker Album</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         * {
@@ -14,547 +14,616 @@
         }
         
         body {
-            background: linear-gradient(135deg, #3a1c71 0%, #d76d77 50%, #ffaf7b 100%);
+            background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
             min-height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
             padding: 20px;
-            overflow: hidden;
         }
         
         .container {
-            text-align: center;
-            max-width: 1200px;
             width: 100%;
-            padding: 20px;
+            max-width: 900px;
+            margin: 0 auto;
         }
         
-        .book-container {
-            display: flex;
-            justify-content: center;
-            perspective: 2500px;
-            position: relative;
-            height: 600px;
-        }
-        
-        .book {
-            position: relative;
-            width: 900px;
-            height: 100%;
-            transform-style: preserve-3d;
-            transform: rotateY(-10deg);
-            transition: transform 0.5s;
-        }
-        
-        /* Book Cover */
-        .cover {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            top: 0;
-            left: 0;
-            background: linear-gradient(135deg, #ff9a9e 0%, #fad0c4 100%);
-            border-radius: 10px 2px 2px 10px;
-            box-shadow: 0 15px 35px rgba(0,0,0,0.5);
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            color: #5a3921;
+        .album-title {
             text-align: center;
-            transform-origin: left center;
-            transition: transform 0.8s cubic-bezier(0.645, 0.045, 0.355, 1);
-            z-index: 10;
-            border: 15px solid #8b5a2b;
-            box-shadow: inset 0 0 30px rgba(0,0,0,0.2);
-            cursor: pointer;
-        }
-        
-        .cover h2 {
-            font-size: 3.5rem;
+            color: white;
             margin-bottom: 20px;
-            text-shadow: 3px 3px 0 rgba(0,0,0,0.1);
-            color: #5a2c02;
-            font-weight: 800;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+        }
+        
+        .album-title h1 {
+            font-size: 3.2rem;
             letter-spacing: 2px;
         }
         
-        .cover p {
-            font-size: 1.4rem;
-            max-width: 70%;
-            margin: 0 auto 30px;
-            color: #5a2c02;
-            font-weight: 500;
-            line-height: 1.6;
+        .album-title p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            margin-top: 8px;
         }
         
-        /* Pages */
-        .page {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            top: 0;
-            left: 0;
-            background: #f8f5f0;
-            border-radius: 2px;
-            display: flex;
-            flex-direction: column;
-            padding: 25px;
-            backface-visibility: hidden;
+        .album-container {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.4);
             overflow: hidden;
-            transform-origin: left center;
-            transition: transform 0.8s cubic-bezier(0.645, 0.045, 0.355, 1);
-            box-shadow: 
-                0 3px 10px rgba(0,0,0,0.1),
-                inset 0 0 3px rgba(0,0,0,0.1);
-            z-index: 1;
+            position: relative;
         }
         
-        /* Page content styles */
-        .page-content {
-            display: flex;
-            height: 100%;
-        }
-        
-        .left-page, .right-page {
-            flex: 1;
-            padding: 15px;
+        /* Album Cover */
+        .album-cover {
+            background: linear-gradient(45deg, #ff9a9e 0%, #fad0c4 100%);
+            height: 500px;
             display: flex;
             flex-direction: column;
-        }
-        
-        .left-page {
-            border-right: 1px dashed #d4c6ad;
-        }
-        
-        .page-number {
+            justify-content: center;
+            align-items: center;
+            padding: 40px;
             text-align: center;
-            font-size: 1.1rem;
-            color: #8b5a2b;
-            font-weight: bold;
-            height: 30px;
-            margin-bottom: 10px;
+            transition: transform 0.5s ease;
+            cursor: pointer;
         }
         
-        /* Sticker grid */
+        .album-cover:hover {
+            transform: scale(1.02);
+        }
+        
+        .cover-title {
+            font-size: 4rem;
+            color: #333;
+            font-weight: 800;
+            margin-bottom: 20px;
+            text-shadow: 3px 3px 0 rgba(255, 255, 255, 0.7);
+            letter-spacing: 3px;
+        }
+        
+        .cover-subtitle {
+            font-size: 1.5rem;
+            color: #555;
+            margin-bottom: 30px;
+            max-width: 600px;
+        }
+        
+        .open-album-btn {
+            background: #4361ee;
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            font-size: 1.2rem;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(67, 97, 238, 0.4);
+        }
+        
+        .open-album-btn:hover {
+            background: #3a56d4;
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(67, 97, 238, 0.6);
+        }
+        
+        /* Sticker Pages */
+        .album-pages {
+            display: none;
+            height: 500px;
+            position: relative;
+        }
+        
+        .page {
+            padding: 30px;
+            height: 100%;
+            display: none;
+        }
+        
+        .page.active {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        .page-title {
+            text-align: center;
+            color: #4361ee;
+            margin-bottom: 20px;
+            font-size: 1.8rem;
+        }
+        
         .sticker-grid {
             display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            grid-template-rows: repeat(3, 1fr);
-            gap: 12px;
-            flex: 1;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            max-width: 600px;
+            margin: 0 auto;
         }
         
         .sticker {
-            background-color: #f0e6d2;
-            border-radius: 8px;
+            aspect-ratio: 1;
+            background: #f8f9fa;
+            border-radius: 15px;
             display: flex;
             justify-content: center;
             align-items: center;
-            cursor: pointer;
-            transition: all 0.3s ease;
             position: relative;
             overflow: hidden;
-            box-shadow: inset 0 0 8px rgba(0,0,0,0.08);
-            border: 1px solid #e3d9c5;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            cursor: pointer;
+            transition: all 0.3s ease;
         }
         
-        .sticker img {
-            max-width: 85%;
-            max-height: 85%;
-            opacity: 0.4;
-            transition: opacity 0.3s, transform 0.3s;
-        }
-        
-        .sticker.collected img {
-            opacity: 1;
-            transform: scale(1.05);
+        .sticker:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
         }
         
         .sticker.collected {
-            box-shadow: 0 0 0 3px #4caf50;
-            background-color: #f5f0e4;
+            background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
         }
         
-        .sticker:hover:not(.collected) img {
-            opacity: 0.6;
+        .sticker-icon {
+            font-size: 3.5rem;
+            color: #adb5bd;
+        }
+        
+        .sticker.collected .sticker-icon {
+            color: #4361ee;
+        }
+        
+        .sticker-number {
+            position: absolute;
+            bottom: 10px;
+            right: 10px;
+            background: rgba(255, 255, 255, 0.8);
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-weight: bold;
+            color: #495057;
+            font-size: 0.9rem;
         }
         
         /* Navigation */
         .navigation {
-            margin-top: 30px;
             display: flex;
-            justify-content: center;
-            gap: 25px;
+            justify-content: space-between;
+            padding: 20px 40px;
+            background: #f8f9fa;
+            border-top: 1px solid #e9ecef;
         }
         
         .nav-btn {
-            background: linear-gradient(to right, #ff9a9e, #fad0c4);
+            background: #4361ee;
+            color: white;
             border: none;
-            padding: 14px 30px;
-            font-size: 1.2rem;
+            padding: 12px 25px;
             border-radius: 50px;
             cursor: pointer;
-            color: #5a2c02;
-            font-weight: bold;
-            box-shadow: 0 6px 20px rgba(0,0,0,0.2);
-            transition: all 0.3s;
             display: flex;
             align-items: center;
-            gap: 10px;
-            min-width: 150px;
-            justify-content: center;
+            gap: 8px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
         }
         
         .nav-btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+            background: #3a56d4;
+            transform: translateY(-2px);
         }
         
         .nav-btn:disabled {
-            opacity: 0.5;
+            background: #adb5bd;
             cursor: not-allowed;
             transform: none;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
         }
         
-        /* Counter */
-        .counter {
+        .save-btn {
+            background: #06d6a0;
+        }
+        
+        .save-btn:hover {
+            background: #05b78a;
+        }
+        
+        /* Progress Bar */
+        .progress-container {
+            padding: 20px 40px;
+            background: #e9ecef;
+            border-top: 1px solid #dee2e6;
+        }
+        
+        .progress-text {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+            font-weight: 500;
+            color: #495057;
+        }
+        
+        .progress-bar {
+            height: 12px;
+            background: #ced4da;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #4cc9f0, #4361ee);
+            border-radius: 10px;
+            width: 45%;
+            transition: width 0.5s ease;
+        }
+        
+        /* Toast Notification */
+        .toast {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: #06d6a0;
             color: white;
-            font-size: 1.4rem;
-            margin-top: 25px;
-            background: rgba(0,0,0,0.25);
-            padding: 12px 30px;
-            border-radius: 30px;
-            display: inline-block;
-            font-weight: 600;
-            backdrop-filter: blur(5px);
+            padding: 15px 25px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            transform: translateY(100px);
+            opacity: 0;
+            transition: all 0.4s ease;
         }
         
-        /* Decorative elements */
-        .ribbon {
-            position: absolute;
-            top: 15px;
-            right: -45px;
-            background: linear-gradient(45deg, #ff6b6b, #ff8e8e);
-            color: white;
-            padding: 12px 40px;
-            font-weight: bold;
-            transform: rotate(45deg);
-            box-shadow: 0 3px 10px rgba(0,0,0,0.2);
-            width: 180px;
-            text-align: center;
-            font-size: 1.1rem;
-            z-index: 20;
-        }
-        
-        .page-edge {
-            position: absolute;
-            right: 0;
-            top: 0;
-            height: 100%;
-            width: 15px;
-            background: repeating-linear-gradient(
-                to bottom,
-                #f8f5f0,
-                #f8f5f0 5px,
-                #e0d6c3 5px,
-                #e0d6c3 10px
-            );
-            border-left: 1px solid #d4c6ad;
-            z-index: 2;
-        }
-        
-        .book-spine {
-            position: absolute;
-            left: -10px;
-            top: 0;
-            height: 100%;
-            width: 20px;
-            background: linear-gradient(to right, #7a4e2c, #8b5a2b, #7a4e2c);
-            border-radius: 2px 0 0 2px;
-            box-shadow: inset -3px 0 10px rgba(0,0,0,0.3);
-            z-index: 11;
-        }
-        
-        /* Flip states */
-        .book.cover-open .cover {
-            transform: rotateY(-180deg);
-            z-index: 0;
-        }
-        
-        .book.cover-open {
-            transform: rotateY(0deg);
-        }
-        
-        .page.flipped {
-            transform: rotateY(-180deg);
-            z-index: 2;
-        }
-        
-        /* Sticker decorations */
-        .sticker::before {
-            content: "";
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><rect width="100" height="100" fill="none" stroke="%23d4c6ad" stroke-width="1.5" stroke-dasharray="6,3" rx="8"/></svg>');
-            opacity: 0.6;
-        }
-        
-        .cover-decoration {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            top: 0;
-            left: 0;
-            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="200" height="200" viewBox="0 0 200 200"><path d="M40,40 Q100,20 160,40 Q180,100 160,160 Q100,180 40,160 Q20,100 40,40 Z" fill="none" stroke="%238b5a2b" stroke-width="2" stroke-opacity="0.15"/></svg>');
-            opacity: 0.3;
-            pointer-events: none;
+        .toast.show {
+            transform: translateY(0);
+            opacity: 1;
         }
         
         /* Responsive */
-        @media (max-width: 950px) {
-            .book {
-                transform: scale(0.85);
+        @media (max-width: 768px) {
+            .album-cover, .album-pages {
+                height: 400px;
+            }
+            
+            .cover-title {
+                font-size: 3rem;
+            }
+            
+            .sticker-grid {
+                gap: 15px;
+            }
+            
+            .sticker-icon {
+                font-size: 2.5rem;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .album-title h1 {
+                font-size: 2.5rem;
+            }
+            
+            .cover-title {
+                font-size: 2.2rem;
+            }
+            
+            .cover-subtitle {
+                font-size: 1.2rem;
+            }
+            
+            .sticker-grid {
+                gap: 10px;
+            }
+            
+            .navigation {
+                padding: 15px;
+            }
+            
+            .nav-btn {
+                padding: 10px 15px;
+                font-size: 0.9rem;
             }
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <div class="book-container">
-            <div class="book" id="stickerBook">
-                <!-- Book spine -->
-                <div class="book-spine"></div>
-                
-                <!-- Front Cover -->
-                <div class="cover" id="cover">
-                    <div class="cover-decoration"></div>
-                    <div class="ribbon">COLLECTOR'S ALBUM</div>
-                    <h2>Sticker Treasure</h2>
-                    <p>Collect all 123 magical stickers! Click to mark them as collected</p>
+        <div class="album-title">
+            <h1>TCC Sticker Album</h1>
+            <p>Track your sticker collection and complete the album!</p>
+        </div>
+        
+        <div class="album-container">
+            <!-- Album Cover -->
+            <div class="album-cover" id="albumCover">
+                <div class="cover-title">TCC STICKER ALBUM</div>
+                <div class="cover-subtitle">Collect all stickers to complete your album and unlock special rewards!</div>
+                <button class="open-album-btn" id="openAlbumBtn">
+                    Open Album <i class="fas fa-arrow-right"></i>
+                </button>
+            </div>
+            
+            <!-- Sticker Pages -->
+            <div class="album-pages" id="albumPages">
+                <!-- Page 1 -->
+                <div class="page active" id="page1">
+                    <div class="page-title">Chapter 1: The Beginning</div>
                     <div class="sticker-grid">
-                        <div class="sticker collected">
-                            <img src="https://cdn-icons-png.flaticon.com/128/686/686589.png" alt="Sticker">
+                        <div class="sticker collected" data-id="1">
+                            <i class="fas fa-star sticker-icon"></i>
+                            <div class="sticker-number">1</div>
                         </div>
-                        <div class="sticker">
-                            <img src="https://cdn-icons-png.flaticon.com/128/1998/1998665.png" alt="Sticker">
+                        <div class="sticker collected" data-id="2">
+                            <i class="fas fa-moon sticker-icon"></i>
+                            <div class="sticker-number">2</div>
                         </div>
-                        <div class="sticker collected">
-                            <img src="https://cdn-icons-png.flaticon.com/128/1998/1998742.png" alt="Sticker">
+                        <div class="sticker" data-id="3">
+                            <i class="fas fa-sun sticker-icon"></i>
+                            <div class="sticker-number">3</div>
                         </div>
-                        <div class="sticker">
-                            <img src="https://cdn-icons-png.flaticon.com/128/1998/1998716.png" alt="Sticker">
+                        <div class="sticker collected" data-id="4">
+                            <i class="fas fa-cloud sticker-icon"></i>
+                            <div class="sticker-number">4</div>
                         </div>
-                        <div class="sticker">
-                            <img src="https://cdn-icons-png.flaticon.com/128/1998/1998756.png" alt="Sticker">
+                        <div class="sticker" data-id="5">
+                            <i class="fas fa-heart sticker-icon"></i>
+                            <div class="sticker-number">5</div>
                         </div>
-                        <div class="sticker collected">
-                            <img src="https://cdn-icons-png.flaticon.com/128/1998/1998760.png" alt="Sticker">
+                        <div class="sticker collected" data-id="6">
+                            <i class="fas fa-tree sticker-icon"></i>
+                            <div class="sticker-number">6</div>
+                        </div>
+                        <div class="sticker" data-id="7">
+                            <i class="fas fa-snowflake sticker-icon"></i>
+                            <div class="sticker-number">7</div>
+                        </div>
+                        <div class="sticker collected" data-id="8">
+                            <i class="fas fa-bolt sticker-icon"></i>
+                            <div class="sticker-number">8</div>
+                        </div>
+                        <div class="sticker" data-id="9">
+                            <i class="fas fa-gem sticker-icon"></i>
+                            <div class="sticker-number">9</div>
                         </div>
                     </div>
                 </div>
                 
-                <!-- Pages will be generated by JavaScript -->
+                <!-- Page 2 -->
+                <div class="page" id="page2">
+                    <div class="page-title">Chapter 2: The Journey</div>
+                    <div class="sticker-grid">
+                        <div class="sticker" data-id="10">
+                            <i class="fas fa-anchor sticker-icon"></i>
+                            <div class="sticker-number">10</div>
+                        </div>
+                        <div class="sticker collected" data-id="11">
+                            <i class="fas fa-feather sticker-icon"></i>
+                            <div class="sticker-number">11</div>
+                        </div>
+                        <div class="sticker" data-id="12">
+                            <i class="fas fa-mountain sticker-icon"></i>
+                            <div class="sticker-number">12</div>
+                        </div>
+                        <div class="sticker" data-id="13">
+                            <i class="fas fa-umbrella-beach sticker-icon"></i>
+                            <div class="sticker-number">13</div>
+                        </div>
+                        <div class="sticker collected" data-id="14">
+                            <i class="fas fa-fish sticker-icon"></i>
+                            <div class="sticker-number">14</div>
+                        </div>
+                        <div class="sticker" data-id="15">
+                            <i class="fas fa-dragon sticker-icon"></i>
+                            <div class="sticker-number">15</div>
+                        </div>
+                        <div class="sticker collected" data-id="16">
+                            <i class="fas fa-feather-alt sticker-icon"></i>
+                            <div class="sticker-number">16</div>
+                        </div>
+                        <div class="sticker" data-id="17">
+                            <i class="fas fa-paw sticker-icon"></i>
+                            <div class="sticker-number">17</div>
+                        </div>
+                        <div class="sticker" data-id="18">
+                            <i class="fas fa-otter sticker-icon"></i>
+                            <div class="sticker-number">18</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Page 3 -->
+                <div class="page" id="page3">
+                    <div class="page-title">Chapter 3: The Finale</div>
+                    <div class="sticker-grid">
+                        <div class="sticker collected" data-id="19">
+                            <i class="fas fa-crown sticker-icon"></i>
+                            <div class="sticker-number">19</div>
+                        </div>
+                        <div class="sticker" data-id="20">
+                            <i class="fas fa-hat-wizard sticker-icon"></i>
+                            <div class="sticker-number">20</div>
+                        </div>
+                        <div class="sticker collected" data-id="21">
+                            <i class="fas fa-shield-alt sticker-icon"></i>
+                            <div class="sticker-number">21</div>
+                        </div>
+                        <div class="sticker" data-id="22">
+                            <i class="fas fa-scroll sticker-icon"></i>
+                            <div class="sticker-number">22</div>
+                        </div>
+                        <div class="sticker collected" data-id="23">
+                            <i class="fas fa-key sticker-icon"></i>
+                            <div class="sticker-number">23</div>
+                        </div>
+                        <div class="sticker" data-id="24">
+                            <i class="fas fa-ring sticker-icon"></i>
+                            <div class="sticker-number">24</div>
+                        </div>
+                        <div class="sticker collected" data-id="25">
+                            <i class="fas fa-gem sticker-icon"></i>
+                            <div class="sticker-number">25</div>
+                        </div>
+                        <div class="sticker" data-id="26">
+                            <i class="fas fa-dungeon sticker-icon"></i>
+                            <div class="sticker-number">26</div>
+                        </div>
+                        <div class="sticker collected" data-id="27">
+                            <i class="fas fa-trophy sticker-icon"></i>
+                            <div class="sticker-number">27</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Navigation -->
+            <div class="navigation" id="navigation" style="display: none;">
+                <button class="nav-btn" id="prevPageBtn" disabled>
+                    <i class="fas fa-arrow-left"></i> Previous
+                </button>
+                
+                <button class="nav-btn save-btn" id="saveBtn">
+                    <i class="fas fa-save"></i> Save Collection
+                </button>
+                
+                <button class="nav-btn" id="nextPageBtn">
+                    Next <i class="fas fa-arrow-right"></i>
+                </button>
+            </div>
+            
+            <!-- Progress Bar -->
+            <div class="progress-container" id="progressContainer" style="display: none;">
+                <div class="progress-text">
+                    <span>Album Completion</span>
+                    <span id="progressPercentage">45%</span>
+                </div>
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progressFill"></div>
+                </div>
             </div>
         </div>
-        
-        <div class="navigation">
-            <button class="nav-btn" id="prevBtn" disabled>
-                <i class="fas fa-arrow-left"></i> Previous Page
-            </button>
-            <button class="nav-btn" id="nextBtn">
-                Next Page <i class="fas fa-arrow-right"></i>
-            </button>
-        </div>
-        
-        <div class="counter">
-            Collected: <span id="collectedCount">0</span> of 123 stickers
-        </div>
     </div>
-
+    
+    <!-- Toast Notification -->
+    <div class="toast" id="toast">
+        <i class="fas fa-check-circle"></i>
+        <span>Your collection has been saved!</span>
+    </div>
+    
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            const stickerBook = document.getElementById('stickerBook');
-            const prevBtn = document.getElementById('prevBtn');
-            const nextBtn = document.getElementById('nextBtn');
-            const collectedCountEl = document.getElementById('collectedCount');
-            const cover = document.getElementById('cover');
+            // DOM Elements
+            const albumCover = document.getElementById('albumCover');
+            const albumPages = document.getElementById('albumPages');
+            const navigation = document.getElementById('navigation');
+            const progressContainer = document.getElementById('progressContainer');
+            const openAlbumBtn = document.getElementById('openAlbumBtn');
+            const prevPageBtn = document.getElementById('prevPageBtn');
+            const nextPageBtn = document.getElementById('nextPageBtn');
+            const saveBtn = document.getElementById('saveBtn');
+            const toast = document.getElementById('toast');
+            const progressFill = document.getElementById('progressFill');
+            const progressPercentage = document.getElementById('progressPercentage');
             
-            // Sticker images - replace with your GitHub URLs
-            const stickerImages = Array(123).fill().map((_, i) => 
-                `https://cdn-icons-png.flaticon.com/128/${1998 + i % 100}/${1998665 + i}.png`
-            );
-            
-            // Total stickers and pages
-            const totalStickers = 123;
-            const stickersPerPage = 12; // 3x4 grid per page
-            const totalPages = Math.ceil(totalStickers / stickersPerPage);
-            
-            // Current page state
+            // Page Management
+            const pages = document.querySelectorAll('.page');
             let currentPage = 0;
-            const collectedStickers = JSON.parse(localStorage.getItem('collectedStickers')) || {};
-            let collectedCount = Object.keys(collectedStickers).length;
-            let coverOpen = false;
             
-            // Generate sticker pages
-            function generatePages() {
-                // Create sticker pages
-                for (let i = 0; i < totalPages; i++) {
-                    const page = document.createElement('div');
-                    page.className = 'page';
-                    page.dataset.page = i;
+            // Sticker collection state
+            const stickers = document.querySelectorAll('.sticker');
+            let collectedStickers = new Set();
+            
+            // Initialize collected stickers from DOM
+            stickers.forEach(sticker => {
+                if (sticker.classList.contains('collected')) {
+                    collectedStickers.add(sticker.dataset.id);
+                }
+            });
+            
+            // Open album function
+            openAlbumBtn.addEventListener('click', function() {
+                albumCover.style.display = 'none';
+                albumPages.style.display = 'block';
+                navigation.style.display = 'flex';
+                progressContainer.style.display = 'block';
+                updateProgress();
+            });
+            
+            // Navigation functions
+            prevPageBtn.addEventListener('click', function() {
+                if (currentPage > 0) {
+                    pages[currentPage].classList.remove('active');
+                    currentPage--;
+                    pages[currentPage].classList.add('active');
+                    updateNavButtons();
+                }
+            });
+            
+            nextPageBtn.addEventListener('click', function() {
+                if (currentPage < pages.length - 1) {
+                    pages[currentPage].classList.remove('active');
+                    currentPage++;
+                    pages[currentPage].classList.add('active');
+                    updateNavButtons();
+                }
+            });
+            
+            // Update navigation buttons based on current page
+            function updateNavButtons() {
+                prevPageBtn.disabled = currentPage === 0;
+                nextPageBtn.disabled = currentPage === pages.length - 1;
+            }
+            
+            // Sticker collection toggle
+            stickers.forEach(sticker => {
+                sticker.addEventListener('click', function() {
+                    const stickerId = this.dataset.id;
                     
-                    // Page edge effect
-                    const pageEdge = document.createElement('div');
-                    pageEdge.className = 'page-edge';
-                    page.appendChild(pageEdge);
-                    
-                    const pageContent = document.createElement('div');
-                    pageContent.className = 'page-content';
-                    page.appendChild(pageContent);
-                    
-                    const leftPage = document.createElement('div');
-                    leftPage.className = 'left-page';
-                    pageContent.appendChild(leftPage);
-                    
-                    const rightPage = document.createElement('div');
-                    rightPage.className = 'right-page';
-                    pageContent.appendChild(rightPage);
-                    
-                    // Page number
-                    const pageNumber = document.createElement('div');
-                    pageNumber.className = 'page-number';
-                    pageNumber.textContent = `Page ${i + 1}`;
-                    rightPage.appendChild(pageNumber);
-                    
-                    // Create sticker grid for right page (main content)
-                    const grid = document.createElement('div');
-                    grid.className = 'sticker-grid';
-                    rightPage.appendChild(grid);
-                    
-                    // Calculate sticker range for this page
-                    const start = i * stickersPerPage;
-                    const end = Math.min(start + stickersPerPage, totalStickers);
-                    
-                    // Create sticker slots
-                    for (let j = start; j < end; j++) {
-                        const sticker = document.createElement('div');
-                        sticker.className = 'sticker';
-                        sticker.dataset.id = j;
-                        
-                        // Sticker image
-                        const img = document.createElement('img');
-                        img.src = stickerImages[j];
-                        img.alt = `Sticker ${j + 1}`;
-                        img.title = `Sticker #${j + 1}`;
-                        sticker.appendChild(img);
-                        
-                        // Check if sticker is collected
-                        if (collectedStickers[j]) {
-                            sticker.classList.add('collected');
-                        }
-                        
-                        // Add click event
-                        sticker.addEventListener('click', function() {
-                            toggleSticker(j);
-                        });
-                        
-                        grid.appendChild(sticker);
+                    if (this.classList.contains('collected')) {
+                        this.classList.remove('collected');
+                        collectedStickers.delete(stickerId);
+                    } else {
+                        this.classList.add('collected');
+                        collectedStickers.add(stickerId);
                     }
                     
-                    stickerBook.appendChild(page);
-                }
-                
-                // Position pages for flip animation
-                positionPages();
-                updateCounter();
-            }
-            
-            // Position pages in 3D space
-            function positionPages() {
-                const pages = document.querySelectorAll('.page:not(.cover)');
-                pages.forEach((page, index) => {
-                    page.style.transform = `rotateY(0deg) translateZ(${index * 2}px)`;
-                    page.style.zIndex = totalPages - index;
+                    updateProgress();
                 });
-            }
+            });
             
-            // Toggle sticker collected state
-            function toggleSticker(id) {
-                if (collectedStickers[id]) {
-                    delete collectedStickers[id];
-                } else {
-                    collectedStickers[id] = true;
-                }
+            // Update progress bar
+            function updateProgress() {
+                const total = stickers.length;
+                const collected = collectedStickers.size;
+                const percentage = Math.round((collected / total) * 100);
                 
-                collectedCount = Object.keys(collectedStickers).length;
-                localStorage.setItem('collectedStickers', JSON.stringify(collectedStickers));
-                updateCounter();
+                progressFill.style.width = `${percentage}%`;
+                progressPercentage.textContent = `${percentage}%`;
+            }
+            
+            // Save button functionality
+            saveBtn.addEventListener('click', function() {
+                // In a real app, you would save to a database or localStorage
+                // For this demo, we'll just show a toast notification
                 
-                // Update sticker UI
-                const sticker = document.querySelector(`.sticker[data-id="${id}"]`);
-                if (sticker) {
-                    sticker.classList.toggle('collected');
-                }
-            }
-            
-            // Update collected counter
-            function updateCounter() {
-                collectedCountEl.textContent = collectedCount;
-            }
-            
-            // Open cover
-            function openCover() {
-                stickerBook.classList.add('cover-open');
-                coverOpen = true;
+                // Show toast
+                toast.classList.add('show');
+                
+                // Hide toast after 3 seconds
                 setTimeout(() => {
-                    updateNavButtons();
-                }, 800);
-            }
+                    toast.classList.remove('show');
+                }, 3000);
+            });
             
-            // Flip to next page
-            function flipNext() {
-                if (!coverOpen) {
-                    openCover();
-                    return;
-                }
-                
-                if (currentPage < totalPages - 1) {
-                    const currentPageEl = document.querySelector(`.page[data-page="${currentPage}"]`);
-                    currentPageEl.classList.add('flipped');
-                    
-                    currentPage++;
-                    updateNavButtons();
-                }
-            }
-            
-            // Flip to previous page
-            function flipPrev() {
-                if (currentPage > 0) {
-                    const currentPageEl = document.querySelector(`.page[data-page="${currentPage - 1}"]`);
-                    currentPageEl.classList.remove('flipped');
-                    
-                    currentPage--;
-                    updateNavButtons();
-                }
-            }
-            
-            // Update navigation buttons state
-            function updateNavButtons() {
-                prevBtn.disabled = currentPage === 0;
-                nextBtn.disabled = currentPage === totalPages - 1;
-            }
-            
-            // Event listeners
-            cover.addEventListener('click', openCover);
-            nextBtn.addEventListener('click', flipNext);
-            prevBtn.addEventListener('click', flipPrev);
-            
-            // Initialize
-            generatePages();
+            // Initialize progress
+            updateProgress();
             updateNavButtons();
         });
     </script>
